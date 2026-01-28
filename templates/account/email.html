@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+{% load static allauth i18n %}
+
+{% block head_title %}{% trans "Email Addresses" %}{% endblock head_title %}
+
+{% block content %}
+<div class="flex-grow flex items-center justify-center bg-base-200 px-4 py-12">
+    <div class="card w-full max-w-2xl bg-base-100 shadow-xl border border-base-300">
+        <div class="card-body">
+
+            <div class="text-center mb-8">
+                <h1 class="text-3xl font-black text-primary">{% trans "Email Management" %}</h1>
+                <p class="text-sm text-base-content/60 mt-2">{% trans 'The following email addresses are associated with your account:' %}</p>
+            </div>
+
+            {% if emailaddresses %}
+                <form method="post" action="{% url 'account_email' %}" class="space-y-6">
+                    {% csrf_token %}
+
+                    <div class="bg-base-200 rounded-box border border-base-300 overflow-hidden">
+                        {% for radio in emailaddress_radios %}
+                            {% with emailaddress=radio.emailaddress %}
+                                <label class="flex items-center justify-between p-4 cursor-pointer hover:bg-base-300/50 transition-colors border-b border-base-300 last:border-0">
+                                    <div class="flex items-center gap-4">
+                                        <input type="radio"
+                                               name="email"
+                                               value="{{ emailaddress.email }}"
+                                               {% if radio.checked %}checked{% endif %}
+                                               class="radio radio-primary radio-sm">
+
+                                        <div class="flex flex-col sm:flex-row sm:items-center gap-2">
+                                            <span class="font-medium">{{ emailaddress.email }}</span>
+                                            <div class="flex gap-1">
+                                                {% if emailaddress.verified %}
+                                                    <span class="badge badge-success badge-sm gap-1 text-[10px] uppercase font-bold">
+                                                        {% translate "Verified" %}
+                                                    </span>
+                                                {% else %}
+                                                    <span class="badge badge-warning badge-sm gap-1 text-[10px] uppercase font-bold">
+                                                        {% translate "Unverified" %}
+                                                    </span>
+                                                {% endif %}
+
+                                                {% if emailaddress.primary %}
+                                                    <span class="badge badge-primary badge-sm gap-1 text-[10px] uppercase font-bold">
+                                                        {% translate "Primary" %}
+                                                    </span>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </label>
+                            {% endwith %}
+                        {% endfor %}
+                    </div>
+
+                    <div class="flex flex-col sm:flex-row gap-2">
+                        <button type="submit" name="action_primary" class="btn btn-primary flex-1 btn-sm">
+                            {% trans 'Make Primary' %}
+                        </button>
+                        <button type="submit" name="action_send" class="btn btn-outline btn-sm">
+                            {% trans 'Re-send Verification' %}
+                        </button>
+                        <button type="submit" name="action_remove" class="btn btn-error btn-outline btn-sm">
+                            {% trans 'Remove' %}
+                        </button>
+                    </div>
+                </form>
+            {% else %}
+                {% include "account/snippets/warn_no_email.html" %}
+            {% endif %}
+
+            {% if can_add_email %}
+                <div class="divider my-8 opacity-40 uppercase text-xs">{% trans "Add New Address" %}</div>
+
+                <form method="post" action="{% url 'account_email' %}" class="space-y-4">
+                    {% csrf_token %}
+                    <div class="form-control w-full">
+                        {% for field in form %}
+                            <label class="label">
+                                <span class="label-text font-semibold">{{ field.label }}</span>
+                            </label>
+                            <div class="allauth-input-wrapper">
+                                {{ field }}
+                            </div>
+                            {% if field.errors %}
+                                <label class="label"><span class="label-text-alt text-error">{{ field.errors.0 }}</span></label>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+
+                    <div class="card-actions">
+                        <button type="submit" name="action_add" class="btn btn-primary btn-block">
+                            {% trans "Add Email" %}
+                        </button>
+                    </div>
+                </form>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock content %}
+
+{% block extra_body %}
+    <script src="{% static 'account/js/account.js' %}"></script>
+    <script src="{% static 'account/js/onload.js' %}"></script>
+    <script data-allauth-onload="allauth.account.forms.manageEmailForm" type="application/json">{
+        "i18n": {"confirmDelete": "{% trans 'Do you really want to remove the selected email address?' %}"}
+    }</script>
+{% endblock extra_body %}

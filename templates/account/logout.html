@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% load allauth i18n %}
+
+{% block head_title %}{% trans "Sign Out" %}{% endblock %}
+
+{% block content %}
+<div class="flex-grow flex items-center justify-center bg-base-200 px-4 py-12">
+    <div class="card w-full max-w-sm bg-base-100 shadow-xl border border-base-300">
+        <div class="card-body text-center">
+
+            <div class="mb-6">
+                <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-error/10 text-error mb-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-8 h-8">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9" />
+                    </svg>
+                </div>
+                <h1 class="text-2xl font-black text-primary">{% trans "Sign Out" %}</h1>
+                <p class="text-sm text-base-content/60 mt-2">{% trans 'Are you sure you want to sign out?' %}</p>
+            </div>
+
+            <form method="post" action="{% url 'account_logout' %}">
+                {% csrf_token %}
+                {{ redirect_field }}
+
+                <div class="card-actions flex-col gap-2">
+                    <button type="submit" class="btn btn-error btn-block">
+                        {% trans 'Sign Out' %}
+                    </button>
+                    <a href="{{ request.META.HTTP_REFERER|default:'/' }}" class="btn btn-ghost btn-block btn-sm">
+                        {% trans "Cancel" %}
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

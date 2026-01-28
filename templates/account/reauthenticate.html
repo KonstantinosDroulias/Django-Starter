@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% load allauth i18n %}
+
+{% block head_title %}{% trans "Confirm Access" %}{% endblock %}
+
+{% block content %}
+<div class="flex-grow flex items-center justify-center bg-base-200 px-4 py-12">
+    <div class="card w-full max-w-md bg-base-100 shadow-xl border border-base-300">
+        <div class="card-body text-center">
+
+            <div class="mb-6">
+                <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-warning/10 text-warning mb-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-8 h-8">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z" />
+                    </svg>
+                </div>
+                <h1 class="text-2xl font-black text-primary">{% trans "Security Check" %}</h1>
+                <p class="text-sm text-base-content/60 mt-2">
+                    {% blocktranslate %}To protect your account, please enter your password to continue.{% endblocktranslate %}
+                </p>
+            </div>
+
+            <form method="post" action="{% url 'account_reauthenticate' %}" class="space-y-4">
+                {% csrf_token %}
+
+                <div class="form-control w-full">
+                    <div class="allauth-input-wrapper">
+                        {# Renders the password field #}
+                        {% element fields form=form unlabeled=True %}
+                        {% endelement %}
+                    </div>
+                    {% if form.non_field_errors %}
+                        <label class="label">
+                            <span class="label-text-alt text-error">{{ form.non_field_errors.0 }}</span>
+                        </label>
+                    {% endif %}
+                </div>
+
+                {{ redirect_field }}
+
+                <div class="card-actions mt-2">
+                    <button type="submit" class="btn btn-primary btn-block">
+                        {% trans "Confirm Password" %}
+                    </button>
+                </div>
+            </form>
+
+            <div class="mt-6">
+                <a href="{{ request.META.HTTP_REFERER|default:'/' }}" class="btn btn-ghost btn-xs opacity-50 hover:opacity-100">
+                    {% trans "Go Back" %}
+                </a>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

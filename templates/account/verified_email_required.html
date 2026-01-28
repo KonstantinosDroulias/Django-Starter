@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% load i18n allauth %}
+
+{% block head_title %}{% trans "Verification Required" %}{% endblock %}
+
+{% block content %}
+<div class="flex-grow flex items-center justify-center bg-base-200 px-4 py-12">
+    <div class="card w-full max-w-md bg-base-100 shadow-xl border border-base-300">
+        <div class="card-body text-center">
+
+            <div class="mb-6">
+                <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary/10 text-primary mb-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-8 h-8">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z" />
+                    </svg>
+                </div>
+                <h1 class="text-2xl font-black text-primary">{% trans "Verify Your Email" %}</h1>
+                <p class="text-sm text-base-content/60 mt-2">
+                    {% blocktrans %}This area is restricted. To continue, we need to verify ownership of your email address.{% endblocktrans %}
+                </p>
+            </div>
+
+            <div class="bg-base-200 p-6 rounded-box border border-base-300 text-sm text-left space-y-4">
+                <p class="text-base-content/80 leading-relaxed">
+                    {% blocktrans %}We've sent a verification link to your inbox. Please click that link to unlock full access to your account.{% endblocktrans %}
+                </p>
+
+                <div class="flex items-start gap-2 text-xs opacity-60">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4 mt-0.5 shrink-0">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z" />
+                    </svg>
+                    <p>{% blocktrans %}Check your spam folder if you don't see it within a few minutes.{% endblocktrans %}</p>
+                </div>
+            </div>
+
+            <div class="divider my-6 opacity-40"></div>
+
+            <div class="space-y-3">
+                <a href="{% url 'account_email' %}" class="btn btn-primary btn-block">
+                    {% trans "Manage Email Addresses" %}
+                </a>
+                <p class="text-[11px] text-base-content/50 italic">
+                    {% blocktrans %}<strong>Note:</strong> You can still change your email if you made a mistake.{% endblocktrans %}
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

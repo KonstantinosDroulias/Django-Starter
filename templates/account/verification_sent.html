@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% load i18n allauth %}
+
+{% block head_title %}{% trans "Verify Your Email" %}{% endblock %}
+
+{% block content %}
+<div class="flex-grow flex items-center justify-center bg-base-200 px-4 py-12">
+    <div class="card w-full max-w-md bg-base-100 shadow-xl border border-base-300">
+        <div class="card-body text-center">
+
+            <div class="mb-6">
+                <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-info/10 text-info mb-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-8 h-8">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
+                    </svg>
+                </div>
+                <h1 class="text-2xl font-black text-primary">{% trans "Verification Sent" %}</h1>
+                <p class="text-sm text-base-content/60 mt-2">
+                    {% blocktrans %}We have sent an email to you for verification. Follow the link provided to finalize your account setup.{% endblocktrans %}
+                </p>
+            </div>
+
+            <div class="bg-base-200 p-6 rounded-box border border-base-300 text-sm text-left space-y-3">
+                <p class="font-semibold text-base-content/80">{% trans "Not seeing it?" %}</p>
+                <ul class="list-disc list-inside text-xs text-base-content/60 space-y-1">
+                    <li>{% trans "Check your spam or junk folder." %}</li>
+                    <li>{% trans "Wait a few minutes for the server to process." %}</li>
+                    <li>{% trans "Ensure you used the correct email address." %}</li>
+                </ul>
+            </div>
+
+            <div class="divider my-6 opacity-40"></div>
+
+            <div class="text-center">
+                <a href="{% url 'account_login' %}" class="btn btn-primary btn-block">
+                    {% trans "Back to Login" %}
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

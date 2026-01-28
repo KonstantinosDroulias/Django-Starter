@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html data-theme="dark">
+    {% load i18n allauth %}
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{% translate "Redirecting" %} | {{ provider }}</title>
+
+        {# Include your compiled Tailwind/DaisyUI CSS #}
+        <link href="/static/css/dist/output.css" rel="stylesheet">
+
+        <meta http-equiv="refresh" content="0;URL='{{ redirect_to }}'" />
+    </head>
+    <body class="bg-base-200 min-h-screen flex items-center justify-center font-sans">
+
+        <div class="text-center animate-pulse">
+            <span class="loading loading-ring loading-lg text-primary mb-4"></span>
+
+            <h1 class="text-xl font-bold text-base-content/80">
+                {% translate "Signing you in via" %} {{ provider }}
+            </h1>
+
+            <p class="text-sm text-base-content/50 mt-4">
+                {% translate "Please wait a moment..." %}<br>
+                <a href="{{ redirect_to }}" class="link link-primary no-underline mt-2 inline-block">
+                    {% translate "Click here if you are not redirected" %}
+                </a>
+            </p>
+        </div>
+
+    </body>
+</html>

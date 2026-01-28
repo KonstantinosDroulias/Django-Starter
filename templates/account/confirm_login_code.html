@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load allauth account %}
+
+{% block head_title %}{% translate "Sign In" %}{% endblock %}
+
+{% block content %}
+<div class="flex-grow flex items-center justify-center bg-base-200 px-4 py-12">
+    <div class="card w-full max-w-md bg-base-100 shadow-xl border border-base-300">
+        <div class="card-body text-center">
+
+            <div class="mb-6">
+                <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary/10 text-primary mb-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-8 h-8">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 5.25a3 3 0 0 1 3 3m3 0a6 6 0 0 1-7.029 5.912c-.563-.097-1.159.026-1.563.43L10.5 17.25H8.25v2.25H6v2.25H2.25v-2.818c0-.597.237-1.17.659-1.591l6.499-6.499c.404-.404.527-1 .43-1.563A6 6 0 1 1 21.75 8.25Z" />
+                    </svg>
+                </div>
+                <h1 class="text-2xl font-black text-primary">{% translate "Enter Sign-In Code" %}</h1>
+                <p class="text-sm text-base-content/60 mt-2">
+                    {% translate "We sent a temporary code to" %}<br>
+                    <span class="font-bold text-base-content">
+                        {% block recipient %}
+                            {% if email %}
+                                <a href="mailto:{{ email }}" class="link link-primary">{{ email }}</a>
+                            {% else %}
+                                <a href="tel:{{ phone }}" class="link link-primary">{{ phone }}</a>
+                            {% endif %}
+                        {% endblock %}
+                    </span>
+                </p>
+            </div>
+
+            <form method="post" action="{% block action_url %}{% url 'account_confirm_login_code' %}{% endblock %}" class="space-y-4">
+                {% csrf_token %}
+
+                <div class="form-control w-full">
+                    <div class="allauth-input-wrapper text-center">
+                        {# Renders the OTP/Code input field #}
+                        {{ form.code }}
+                    </div>
+                    {% if form.code.errors %}
+                        <label class="label">
+                            <span class="label-text-alt text-error">{{ form.code.errors.0 }}</span>
+                        </label>
+                    {% endif %}
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-block">
+                    {% translate "Sign In" %}
+                </button>
+            </form>
+
+            <div class="divider my-6 opacity-40"></div>
+
+            <div class="space-y-2">
+                <p class="text-xs text-base-content/50">{% translate "Code expiring soon?" %}</p>
+                <a href="{% url 'account_login' %}" class="btn btn-ghost btn-xs opacity-70 hover:opacity-100">
+                    {% translate "Back to login" %}
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

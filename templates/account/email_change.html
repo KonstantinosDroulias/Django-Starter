@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load allauth account %}
+
+{% block head_title %}{% trans "Email Address" %}{% endblock %}
+
+{% block content %}
+<div class="flex-grow flex items-center justify-center bg-base-200 px-4 py-12">
+    <div class="card w-full max-w-md bg-base-100 shadow-xl border border-base-300">
+        <div class="card-body">
+
+            <div class="text-center mb-8">
+                <h1 class="text-3xl font-black text-primary">{% trans "Email Address" %}</h1>
+                <p class="text-sm text-base-content/60 mt-2">{% trans "Manage your primary contact information." %}</p>
+            </div>
+
+            {% if not emailaddresses %}
+                {% include "account/snippets/warn_no_email.html" %}
+            {% endif %}
+
+            <form method="post" action="{% url 'account_email' %}" class="space-y-6">
+                {% csrf_token %}
+
+                {% if current_emailaddress %}
+                    <div class="form-control w-full">
+                        <label class="label">
+                            <span class="label-text font-semibold opacity-70">{% translate "Current Email" %}</span>
+                        </label>
+                        <input type="email" value="{{ current_emailaddress.email }}" disabled class="input input-bordered bg-base-200 cursor-not-allowed">
+                    </div>
+                {% endif %}
+
+                {% if new_emailaddress %}
+                    <div class="alert alert-info shadow-sm py-4 flex-col items-start gap-3">
+                        <div class="flex items-center gap-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="stroke-current shrink-0 w-5 h-5"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            <span class="text-xs font-bold uppercase tracking-wider">{% translate "Verification Pending" %}</span>
+                        </div>
+                        <div class="text-sm">
+                            {% if not current_emailaddress %}
+                                {% translate "Current email" %}:
+                            {% else %}
+                                {% translate "Changing to" %}:
+                            {% endif %}
+                            <span class="font-bold underline">{{ new_emailaddress.email }}</span>
+                        </div>
+
+                        <div class="flex gap-2 w-full mt-2">
+                            <button form="pending-email" type="submit" name="action_send" class="btn btn-xs btn-primary grow">
+                                {% trans 'Re-send' %}
+                            </button>
+                            {% if current_emailaddress %}
+                                <button form="pending-email" type="submit" name="action_remove" class="btn btn-xs btn-ghost bg-base-100 grow">
+                                    {% trans 'Cancel Change' %}
+                                </button>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endif %}
+
+                <div class="form-control w-full">
+                    <label class="label">
+                        <span class="label-text font-semibold">{% translate "Change to" %}</span>
+                    </label>
+                    <div class="allauth-input-wrapper">
+                        <input type="email" name="email" value="{{ form.email.value|default_if_none:'' }}" id="{{ form.email.auto_id }}" required>
+                    </div>
+                    {% if form.email.errors %}
+                        <label class="label">
+                            <span class="label-text-alt text-error">{{ form.email.errors.0 }}</span>
+                        </label>
+                    {% endif %}
+                </div>
+
+                <div class="card-actions">
+                    <button type="submit" name="action_add" class="btn btn-primary btn-block">
+                        {% trans "Change Email" %}
+                    </button>
+                </div>
+            </form>
+
+            {% if new_emailaddress %}
+                <form id="pending-email" method="post" action="{% url 'account_email' %}" class="hidden">
+                    {% csrf_token %}
+                    <input type="hidden" name="email" value="{{ new_emailaddress.email }}">
+                </form>
+            {% endif %}
+
+        </div>
+    </div>
+</div>
+{% endblock %}

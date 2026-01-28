@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% load i18n allauth %}
+
+{% block head_title %}{% trans "Account Connections" %}{% endblock %}
+
+{% block content %}
+<div class="flex-grow flex items-center justify-center bg-base-200 px-4 py-12">
+    <div class="card w-full max-w-2xl bg-base-100 shadow-xl border border-base-300">
+        <div class="card-body">
+
+            <div class="text-center mb-8">
+                <h1 class="text-3xl font-black text-primary">{% trans "Connected Accounts" %}</h1>
+                <p class="text-sm text-base-content/60 mt-2">
+                    {% trans "Manage the third-party services linked to your profile." %}
+                </p>
+            </div>
+
+            {% if form.accounts %}
+                <p class="text-sm font-medium mb-4 opacity-70">
+                    {% blocktrans %}You can sign in using any of the following services:{% endblocktrans %}
+                </p>
+
+                <form method="post" action="{% url 'socialaccount_connections' %}" class="space-y-6">
+                    {% csrf_token %}
+
+                    <div class="bg-base-200 rounded-box border border-base-300 overflow-hidden">
+                        {% for acc in form.fields.account.choices %}
+                            {% with account=acc.0.instance.get_provider_account %}
+                                <label class="flex items-center justify-between p-4 cursor-pointer hover:bg-base-300/50 transition-colors border-b border-base-300 last:border-0">
+                                    <div class="flex items-center gap-4">
+                                        <input type="radio"
+                                               name="account"
+                                               value="{{ account.account.pk }}"
+                                               class="radio radio-primary radio-sm">
+
+                                        <div class="flex flex-col">
+                                            <span class="font-bold text-base-content">{{ account }}</span>
+                                            <span class="badge badge-outline badge-sm text-[10px] uppercase tracking-tighter mt-1">
+                                                {{ account.get_brand.name }}
+                                            </span>
+                                        </div>
+                                    </div>
+                                </label>
+                            {% endwith %}
+                        {% endfor %}
+                    </div>
+
+                    <div class="card-actions justify-end">
+                        <button type="submit" class="btn btn-error btn-outline btn-sm">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4 mr-1">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
+                            </svg>
+                            {% trans 'Remove Selected Account' %}
+                        </button>
+                    </div>
+                </form>
+            {% else %}
+                <div class="alert alert-ghost border border-base-300 bg-base-200/50">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="stroke-current shrink-0 w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    <span class="text-sm">{% trans 'You currently have no third-party accounts connected.' %}</span>
+                </div>
+            {% endif %}
+
+            <div class="divider my-10 opacity-40 uppercase text-xs tracking-widest font-bold">{% trans 'Link New Service' %}</div>
+
+            <div class="bg-base-200 p-6 rounded-box border border-base-300">
+                <div class="grid grid-cols-1 gap-4">
+                    {% include "socialaccount/snippets/provider_list.html" with process="connect" %}
+                </div>
+                {% include "socialaccount/snippets/login_extra.html" %}
+            </div>
+
+            <div class="mt-8 text-center">
+                <a href="{% url 'account_login' %}" class="btn btn-ghost btn-xs opacity-50 hover:opacity-100">
+                    {% trans "Back to Settings" %}
+                </a>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% load i18n allauth %}
+
+{% block head_title %}{% trans "Login Failure" %}{% endblock %}
+
+{% block content %}
+<div class="flex-grow flex items-center justify-center bg-base-200 px-4 py-12">
+    <div class="card w-full max-w-md bg-base-100 shadow-xl border border-base-300">
+        <div class="card-body text-center">
+
+            <div class="mb-6">
+                <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-error/10 text-error mb-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-8 h-8">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
+                    </svg>
+                </div>
+                <h1 class="text-2xl font-black text-primary">{% trans "Authentication Error" %}</h1>
+                <p class="text-sm text-base-content/60 mt-2 leading-relaxed">
+                    {% trans "An error occurred while attempting to login via your third-party account." %}
+                </p>
+            </div>
+
+            <div class="bg-base-200 p-5 rounded-box border border-base-300 text-left mb-6">
+                <h3 class="text-xs font-bold uppercase tracking-widest text-base-content/40 mb-3">{% trans "Common Causes" %}</h3>
+                <ul class="space-y-2 text-xs text-base-content/70">
+                    <li class="flex items-start gap-2">
+                        <span class="text-error">•</span>
+                        {% trans "The login request timed out or was cancelled." %}
+                    </li>
+                    <li class="flex items-start gap-2">
+                        <span class="text-error">•</span>
+                        {% trans "Cookies are disabled in your browser." %}
+                    </li>
+                    <li class="flex items-start gap-2">
+                        <span class="text-error">•</span>
+                        {% trans "The third-party service is temporarily unavailable." %}
+                    </li>
+                </ul>
+            </div>
+
+            <div class="card-actions flex-col gap-2">
+                <a href="{% url 'account_login' %}" class="btn btn-primary btn-block">
+                    {% trans "Try Again" %}
+                </a>
+                <a href="/" class="btn btn-ghost btn-block btn-sm opacity-50">
+                    {% trans "Return Home" %}
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

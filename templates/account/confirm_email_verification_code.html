@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load allauth account %}
+
+{% block head_title %}{% translate "Email Verification" %}{% endblock %}
+
+{% block content %}
+<div class="flex-grow flex items-center justify-center bg-base-200 px-4 py-12">
+    <div class="card w-full max-w-md bg-base-100 shadow-xl border border-base-300">
+        <div class="card-body text-center">
+
+            <div class="mb-6">
+                <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-info/10 text-info mb-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-8 h-8">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" />
+                    </svg>
+                </div>
+                <h1 class="text-2xl font-black text-primary">{% translate "Verify your email" %}</h1>
+                <p class="text-sm text-base-content/60 mt-2">
+                    {% translate "We've sent a code to" %}<br>
+                    <span class="font-bold text-base-content">{% block recipient %}<a href="mailto:{{ email }}" class="link link-primary">{{ email }}</a>{% endblock %}</span>
+                </p>
+            </div>
+
+            <form method="post" action="{% block action_url %}{% url 'account_email_verification_sent' %}{% endblock %}" class="space-y-4">
+                {% csrf_token %}
+
+                <div class="form-control w-full">
+                    <div class="allauth-input-wrapper text-center">
+                        {# This usually renders a single code input field #}
+                        {{ form.code }}
+                    </div>
+                    {% if form.code.errors %}
+                        <label class="label">
+                            <span class="label-text-alt text-error">{{ form.code.errors.0 }}</span>
+                        </label>
+                    {% endif %}
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-block">
+                    {% translate "Confirm Code" %}
+                </button>
+            </form>
+
+            <div class="divider my-6 opacity-40"></div>
+
+            <div class="space-y-2">
+                <p class="text-xs text-base-content/50">{% translate "Didn't receive the code?" %}</p>
+                <form method="post" action="{% url 'account_email_verification_sent' %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-ghost btn-xs opacity-70 hover:opacity-100">
+                        {% translate "Resend verification email" %}
+                    </button>
+                </form>
+
+                <a href="{% url 'account_signup' %}" class="btn btn-link btn-xs no-underline opacity-50 hover:opacity-100">
+                    {% block change_title %}{% translate "Use a different email address" %}{% endblock %}
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

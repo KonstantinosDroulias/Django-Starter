@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% load i18n allauth %}
+
+{% block head_title %}{% trans "Login Cancelled" %}{% endblock %}
+
+{% block content %}
+<div class="flex-grow flex items-center justify-center bg-base-200 px-4 py-12">
+    <div class="card w-full max-w-md bg-base-100 shadow-xl border border-base-300">
+        <div class="card-body text-center">
+
+            <div class="mb-6">
+                <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-base-200 text-base-content/40 mb-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-8 h-8">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </div>
+                <h1 class="text-2xl font-black text-primary">{% trans "Login Cancelled" %}</h1>
+                <p class="text-sm text-base-content/60 mt-2 leading-relaxed">
+                    {% blocktrans %}You decided to cancel the sign-in process via your third-party account.{% endblocktrans %}
+                </p>
+            </div>
+
+            <div class="bg-base-200 p-4 rounded-box border border-base-300 text-sm text-base-content/70">
+                {% trans "If this was a mistake, don't worry—you can try again or use a different method." %}
+            </div>
+
+            <div class="card-actions mt-8 flex-col gap-2">
+                <a href="{% url 'account_login' %}" class="btn btn-primary btn-block">
+                    {% trans "Proceed to Sign In" %}
+                </a>
+                <a href="/" class="btn btn-ghost btn-sm btn-block opacity-50">
+                    {% trans "Back to Home" %}
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% load i18n allauth %}
+
+{% block head_title %}{% trans "Sign Up" %}{% endblock %}
+
+{% block content %}
+<div class="flex-grow flex items-center justify-center bg-base-200 px-4 py-12">
+    <div class="card w-full max-w-md bg-base-100 shadow-xl border border-base-300">
+        <div class="card-body">
+
+            <div class="text-center mb-6">
+                <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary/10 text-primary mb-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-8 h-8">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a5.946 5.946 0 00-.943 3.197m0 0a5.99 5.99 0 000 .031c0 .225.012.447.038.666A11.944 11.944 0 0112 21c2.17 0 4.207-.576 5.963-1.584A6.062 6.062 0 0118 18.719m-12 0a5.971 5.971 0 00.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 005.058-2.772" />
+                    </svg>
+                </div>
+                <h1 class="text-2xl font-black text-primary">{% trans "Almost there!" %}</h1>
+                <p class="text-sm text-base-content/60 mt-2">
+                    {% blocktrans with provider_name=account.get_provider.name %}
+                        You're authenticating with <strong>{{ provider_name }}</strong>. Please complete your profile to finish signing up.
+                    {% endblocktrans %}
+                </p>
+            </div>
+
+            <form method="post" action="{% url 'socialaccount_signup' %}" class="space-y-4">
+                {% csrf_token %}
+
+                <div class="form-control w-full">
+                    <div class="allauth-input-wrapper">
+                        {% element fields form=form unlabeled=True %}
+                        {% endelement %}
+                    </div>
+                    {% if form.errors %}
+                        <label class="label">
+                            <span class="label-text-alt text-error">{{ form.errors.as_text }}</span>
+                        </label>
+                    {% endif %}
+                </div>
+
+                {{ redirect_field }}
+
+                <button type="submit" class="btn btn-primary btn-block">
+                    {% trans "Complete Signup" %}
+                </button>
+            </form>
+
+            <div class="divider my-6 opacity-40"></div>
+
+            <p class="text-[10px] text-center text-base-content/40 uppercase tracking-widest">
+                {% blocktrans with site_name=site.name %}Joining {{ site_name }}{% endblocktrans %}
+            </p>
+        </div>
+    </div>
+</div>
+{% endblock %}
