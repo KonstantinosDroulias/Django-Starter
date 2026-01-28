@@ -1,9 +1,14 @@
-# core/context_processors.py
-from django.conf import settings
+# config/context_processors.py
+from core.models import AppConfig
+from django.db.utils import ProgrammingError, OperationalError
 
-def global_settings(request):
+
+def app_settings(request):
+    try:
+        config, _ = AppConfig.objects.get_or_create(id=1)
+    except (ProgrammingError, OperationalError):
+        config = None
+
     return {
-        'APP_NAME': settings.APP_NAME,
-        'APP_TAGLINE': settings.TAGLINE,
-        'APP_AUTHOR': settings.AUTHOR,
+        'app_config': config
     }

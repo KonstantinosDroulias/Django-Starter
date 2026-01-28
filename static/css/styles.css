@@ -1,2 +1,59 @@
 @import "tailwindcss";
-@plugin "daisyui";
+@plugin "daisyui" {
+    themes: mytheme --default, dark --prefersdark;
+}
+@plugin "daisyui/theme" {
+  name: "mytheme";
+  default: true; /* set as default */
+  prefersdark: false; /* set as default dark mode (prefers-color-scheme:dark) */
+  color-scheme: light; /* color of browser-provided UI */
+
+  /* Backgrounds - Ultra Clean */
+  --color-base-100: hsl(0 0% 100%);         /* #FFFFFF */
+  --color-base-200: hsl(210 40% 98%);       /* #F8FAFC */
+  --color-base-300: hsl(210 40% 96%);       /* #F1F5F9 */
+  --color-base-content: hsl(222 47% 11%);   /* Deep Slate Text */
+
+  /* Brand Colors - Professional Slate */
+  --color-primary: hsl(215 25% 27%);        /* Deep Slate Blue */
+  --color-primary-content: hsl(210 40% 98%);
+
+  --color-secondary: hsl(210 16% 82%);      /* Muted Silver/Slate */
+  --color-secondary-content: hsl(222 47% 11%);
+
+  --color-accent: hsl(210 20% 50%);         /* Mid-tone Grey-Blue */
+  --color-accent-content: hsl(0 0% 100%);
+
+  /* UI Elements */
+  --color-neutral: hsl(215 14% 34%);        /* Charcoal Slate */
+  --color-neutral-content: hsl(210 40% 98%);
+
+  /* Functional Colors - Muted/Natural Tones */
+  --color-info: hsl(199 89% 48%);           /* Sky Blue */
+  --color-info-content: hsl(0 0% 100%);
+
+  --color-success: hsl(150 60% 40%);        /* Emerald Green */
+  --color-success-content: hsl(0 0% 100%);
+
+  --color-warning: hsl(38 92% 50%);         /* Amber */
+  --color-warning-content: hsl(222 47% 11%);
+
+  --color-error: hsl(0 84% 60%);            /* Soft Red */
+  --color-error-content: hsl(0 0% 100%);
+
+  /* border radius */
+  --radius-selector: 1rem;
+  --radius-field: 0.25rem;
+  --radius-box: 0.5rem;
+
+  /* base sizes */
+  --size-selector: 0.25rem;
+  --size-field: 0.25rem;
+
+  /* border size */
+  --border: 1px;
+
+  /* effects */
+  --depth: 1;
+  --noise: 0;
+}

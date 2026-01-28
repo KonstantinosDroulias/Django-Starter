@@ -7,14 +7,14 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/output.css' %}">
-    <title>{{ APP_NAME }} - {% block title %}{{ APP_TAGLINE }}{% endblock %}</title>
+    <title>{{ app_config.app_name }} - {% block title %}{{ app_config.app_tagline }}{% endblock %}</title>
 
     {% block extra_head %}{% endblock %}
 </head>
-<body>
+<body class="min-h-screen flex flex-col">
     {% include 'partials/header.html' %}
 
-    <main>
+    <main class="flex-grow flex flex-col">
         {% block content %}
         {% endblock %}
     </main>

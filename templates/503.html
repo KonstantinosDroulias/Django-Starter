@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en" data-theme="modern-slate">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/output.css' %}">
+    <title>{{ app_config.app_name }} - Maintenance</title>
+</head>
+<body class="min-h-screen flex items-center justify-center bg-base-200 px-4">
+    <div class="text-center">
+        <div class="inline-block animate-bounce mb-4">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-info" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+            </svg>
+        </div>
+        <h1 class="text-3xl font-bold md:text-5xl text-base-content">Maintenance Mode</h1>
+        <p class="py-6 text-base-content/70 max-w-md mx-auto">
+            We're currently polishing the gears and updating the code. We'll be back online soon!
+        </p>
+        <span class="loading loading-dots loading-lg text-info"></span>
+        
+        <div class="mt-8">
+            {% if app_config.contact_email %}
+                <a href="mailto:{{ app_config.contact_email }}" class="text-xs link link-hover opacity-50">
+                    Need urgent help? Contact {{ app_config.contact_email }}
+                </a>
+            {% else %}
+                <p class="text-xs opacity-50">Maintenance in progress. Please check back later.</p>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>

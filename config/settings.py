@@ -36,7 +36,7 @@ CSRF_TRUSTED_ORIGINS = os.getenv('CSRF_TRUSTED_ORIGINS', 'https://127.0.0.1').sp
 SITE_ID = 1
 
 INSTALLED_APPS = [
-    'unfold'
+    'unfold',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -47,7 +47,7 @@ INSTALLED_APPS = [
     'user',
     'rest_framework',
     'rest_framework.authtoken',
-    'allauth'
+    'allauth',
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
@@ -77,7 +77,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'core.context_processors.global_settings',
+                'config.context_processors.app_settings',
             ],
         },
     },
@@ -91,17 +91,14 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 DATABASES = {
     'default': {
-        'default': {
-        'ENGINE': 'django.db.backends.{}'.format(os.getenv('DB_ENGINE', 'sqlite3')),
+        'ENGINE': 'django.db.backends.{}'.format(os.getenv('DB_ENGINE', 'postgresql')),
         'NAME': os.getenv('DB_NAME'),
         'USER': os.getenv('DB_USER'),
         'PASSWORD': os.getenv('DB_PASSWORD'),
         'HOST': os.getenv('DB_HOST'),
         'PORT': os.getenv('DB_PORT'),
-        }
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/6.0/ref/settings/#auth-password-validators
@@ -178,7 +175,7 @@ LOGIN_REDIRECT_URL = '/'
 ACCOUNT_SIGNUP_FIELDS = ['username*', 'email*', 'password1*', 'password2*']
 ACCOUNT_LOGIN_METHODS = {'email', 'username'}
 
-ACCOUNT_SIGNUP_FORM_CLASS = 'user.forms.CustomSignupForm'
+#ACCOUNT_SIGNUP_FORM_CLASS = 'user.forms.CustomSignupForm'
 
 # Provider specific settings
 SOCIALACCOUNT_PROVIDERS = {
@@ -194,7 +191,3 @@ SOCIALACCOUNT_PROVIDERS = {
 SOCIAL_ACCOUNT_EMAIL_AUTHENTICATION_AUTO_CONNECT  =  True
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-APP_NAME = "Django Starter"
-APP_TAGLINE = "My Awesome Project"
-APP_AUTHOR = "Konstantinos Droulias"

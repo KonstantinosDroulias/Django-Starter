@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load allauth account %}
+
+{% block head_title %}{% trans "Sign In" %}{% endblock %}
+
+{% block content %}
+<div class="flex-grow flex items-center justify-center bg-base-200 px-4 py-12">
+    <div class="card w-full max-w-md bg-base-100 shadow-xl border border-base-300">
+        <div class="card-body">
+
+            <div class="text-center mb-6">
+                <h1 class="text-3xl font-black text-primary">{{ app_config.app_name }}</h1>
+                <p class="text-base-content/60 text-sm mt-2">{% trans "Welcome back! Please enter your details." %}</p>
+            </div>
+
+            {% if not SOCIALACCOUNT_ONLY %}
+                <form method="post" action="{% url 'account_login' %}" class="space-y-4">
+                    {% csrf_token %}
+
+                    {% if form.errors %}
+                        <div class="alert alert-error text-sm py-2">
+                            {{ form.non_field_errors }}
+                        </div>
+                    {% endif %}
+
+                    <div class="form-control w-full">
+                        {% for field in form %}
+                            <div class="mb-4">
+                                <label class="label pt-0">
+                                    <span class="label-text font-semibold">{{ field.label }}</span>
+                                </label>
+                                {# Note: Allauth fields need styling via CSS or custom widgets, but we can target them here #}
+                                <div class="allauth-input-wrapper">
+                                    {{ field }}
+                                </div>
+                                {% if field.errors %}
+                                    <label class="label">
+                                        <span class="label-text-alt text-error">{{ field.errors.0 }}</span>
+                                    </label>
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+                    </div>
+
+                    {{ redirect_field }}
+
+                    <div class="card-actions flex-col gap-3 mt-6">
+                        <button type="submit" class="btn btn-primary btn-block">
+                            {% trans "Sign In" %}
+                        </button>
+
+                        <a href="{% url 'account_reset_password' %}" class="btn btn-ghost btn-sm btn-block text-xs opacity-60">
+                            {% trans "Forgot password?" %}
+                        </a>
+                    </div>
+                </form>
+
+                <div class="divider text-xs opacity-40 uppercase">{% trans "or" %}</div>
+            {% endif %}
+
+            <div class="text-center text-sm mt-2">
+                <span class="opacity-60">{% trans "Don't have an account?" %}</span>
+                <a href="{{ signup_url }}" class="link link-primary font-bold decoration-2">{% trans "Sign up" %}</a>
+            </div>
+
+            {% if SOCIALACCOUNT_ENABLED %}
+                <div class="mt-6">
+                    {% include "socialaccount/snippets/login.html" with page_layout="entrance" %}
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

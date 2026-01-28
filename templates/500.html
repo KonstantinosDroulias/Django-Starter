@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block content %}
+<section class="flex-grow flex flex-col items-center justify-center bg-neutral text-neutral-content px-4">
+    <div class="text-center">
+        <h1 class="text-9xl font-black opacity-10">500</h1>
+        <div class="mt-[-3rem]">
+            <h2 class="text-3xl font-bold md:text-5xl">Internal Error</h2>
+            <p class="py-6 opacity-70 max-w-md mx-auto">
+                Something went wrong on our end. Our servers are a bit confused, but we've been notified.
+            </p>
+            <a href="{% url 'home' %}" class="btn btn-accent">Reload Home</a>
+        </div>
+    </div>
+</section>
+{% endblock %}

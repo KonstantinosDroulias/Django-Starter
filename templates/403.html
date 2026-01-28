@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block content %}
+<section class="flex-grow flex flex-col items-center justify-center bg-base-100 px-4">
+    <div class="text-center">
+        <h1 class="text-9xl font-black text-error opacity-20">403</h1>
+        <div class="mt-[-3rem]">
+            <h2 class="text-3xl font-bold md:text-5xl">Access Denied</h2>
+            <p class="py-6 text-base-content/70 max-w-md mx-auto">
+                You've reached a restricted area. Your current permissions don't allow you to view this page.
+            </p>
+            <a href="{% url 'home' %}" class="btn btn-error btn-outline">Go to Safety</a>
+        </div>
+    </div>
+</section>
+{% endblock %}

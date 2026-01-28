@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block content %}
+<section class="flex-grow flex flex-col items-center justify-center bg-base-100 px-4">
+    <div class="text-center">
+        <h1 class="text-9xl font-black text-warning opacity-20">405</h1>
+        <div class="mt-[-3rem]">
+            <h2 class="text-3xl font-bold md:text-5xl">Invalid Action</h2>
+            <p class="py-6 text-base-content/70 max-w-md mx-auto">
+                The way you tried to access this URL isn't supported. Please use the buttons provided on the site.
+            </p>
+            <button onclick="history.back()" class="btn btn-warning btn-outline">Try Again Properly</button>
+        </div>
+    </div>
+</section>
+{% endblock %}

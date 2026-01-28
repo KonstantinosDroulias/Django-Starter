@@ -1,12 +1,18 @@
 <header>
     {% if user.is_staff %}
-    <div class="p-2 bg-blue-800 text-white">
-        <p><a href="">View</a> Admin Dashboard</p>
+    <div class="p-2 bg-primary text-white">
+        <p><a class="hover:underline" href="{% url 'admin:index' %}">View Admin Dashboard</a></p>
     </div>
     {% endif %}
     <nav class="navbar bg-base-100 shadow-sm">
         <div class="flex-1">
-            <a class="btn btn-ghost text-xl">{{ APP_NAME }}</a>
+            <a href="{% url 'home' %}" class="btn btn-ghost text-xl">
+                {% if app_config.app_name %}
+                    {{ app_config.app_name }}
+                {% else %}
+                    Logo
+                {% endif %}
+            </a>
           </div>
           <div class="flex-none">
             <ul class="menu menu-horizontal px-1">
