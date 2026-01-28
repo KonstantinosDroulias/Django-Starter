@@ -1,0 +1,26 @@
+<header>
+    {% if user.is_staff %}
+    <div class="p-2 bg-blue-800 text-white">
+        <p><a href="">View</a> Admin Dashboard</p>
+    </div>
+    {% endif %}
+    <nav class="navbar bg-base-100 shadow-sm">
+        <div class="flex-1">
+            <a class="btn btn-ghost text-xl">{{ APP_NAME }}</a>
+          </div>
+          <div class="flex-none">
+            <ul class="menu menu-horizontal px-1">
+              <li><a>Link</a></li>
+              <li>
+                <details>
+                  <summary>Parent</summary>
+                  <ul class="bg-base-100 rounded-t-none p-2">
+                    <li><a>Link 1</a></li>
+                    <li><a>Link 2</a></li>
+                  </ul>
+                </details>
+              </li>
+            </ul>
+          </div>
+    </nav>
+</header>

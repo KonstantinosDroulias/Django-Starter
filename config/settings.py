@@ -77,6 +77,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'core.context_processors.global_settings',
             ],
         },
     },
@@ -193,3 +194,7 @@ SOCIALACCOUNT_PROVIDERS = {
 SOCIAL_ACCOUNT_EMAIL_AUTHENTICATION_AUTO_CONNECT  =  True
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+APP_NAME = "Django Starter"
+APP_TAGLINE = "My Awesome Project"
+APP_AUTHOR = "Konstantinos Droulias"
