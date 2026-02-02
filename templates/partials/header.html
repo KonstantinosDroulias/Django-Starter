@@ -1,41 +1,57 @@
 <header>
     {% if user.is_staff %}
-    <div class="p-2 bg-primary text-white">
-        <p><a class="hover:underline" href="{% url 'admin:index' %}">View Admin Dashboard</a></p>
+    <div class="p-2 bg-primary text-primary-content text-sm text-center">
+        <p><a class="hover:underline" href="{% url 'admin:index' %}">Admin Dashboard</a></p>
     </div>
     {% endif %}
-    <nav class="navbar bg-base-100 shadow-sm">
-        <div class="flex-1">
-            <a href="{% url 'home' %}" class="btn btn-ghost text-xl">
-                {% if app_config.app_name %}
-                    {{ app_config.app_name }}
-                {% else %}
-                    Logo
-                {% endif %}
+
+    <nav class="navbar bg-base-100 border-b border-base-300 px-4 h-16">
+        <div class="navbar-start">
+            <a href="{% url 'home' %}" class="btn btn-ghost text-xl font-black tracking-tight text-primary">
+                {{ app_config.app_name|default:"Logo" }}
             </a>
-          </div>
-          <div class="flex-none">
-            <ul class="menu menu-horizontal px-1">
-              <li><a>Link</a></li>
-              <li>
-                <details>
-                  <summary>Parent</summary>
-                  <ul class="bg-base-100 rounded-t-none p-2">
-                    <li><a>Link 1</a></li>
-                    <li><a>Link 2</a></li>
-                  </ul>
-                </details>
-              </li>
-                {% if user.is_authenticated %}
-                  <li>
-                    <a href="{% url 'account_logout' %}" class="px-2 py-1 rounded-lg bg-error">Logout</a>
-                  </li>
-                {% else %}
-                  <li>
-                    <a href="{% url 'account_login' %}" class="px-2 py-1 rounded-lg bg-base-100">Login</a>
-                  </li>
-                {% endif %}
+        </div>
+
+        <div class="navbar-end flex items-center gap-4">
+            <ul class="menu menu-horizontal px-1 hidden md:flex">
+                <li><a href="{% url 'home' %}" class="font-medium">Home</a></li>
             </ul>
-          </div>
+
+            {% if user.is_authenticated %}
+            <div class="dropdown dropdown-end">
+                <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar placeholder">
+                    {% if user.profile.avatar %}
+                        <div class="w-10 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2 overflow-hidden">
+                            <img src="{{ user.profile.avatar.url }}" alt="{{ user.username }}" />
+                        </div>
+                    {% else %}
+                        <div class="bg-accent text-accent-content w-10 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2 flex items-center justify-center">
+                            <span class="text-xl leading-none">{{ user.username|slice:":2"|upper }}</span>
+                        </div>
+                    {% endif %}
+                </div>
+
+                <ul tabindex="0" class="mt-3 z-[100] p-2 shadow-xl menu menu-sm dropdown-content bg-base-100 border border-base-300 rounded-box w-52">
+                    <li class="menu-title text-accent uppercase text-[10px] font-bold">Account</li>
+                    <li><a href="{% url 'profile' %}" class="justify-between">My Profile <span class="badge badge-primary badge-outline text-[10px]">New</span></a></li>
+
+                    <li class="menu-title text-accent uppercase text-[10px] font-bold mt-2">Settings</li>
+                    <li><a href="{% url 'account_email' %}">Email Settings</a></li>
+                    <li><a href="{% url 'account_change_password' %}">Change Password</a></li>
+
+                    <div class="divider my-1"></div>
+
+                    <li>
+                        <form method="post" action="{% url 'account_logout' %}" class="w-full">
+                            {% csrf_token %}
+                            <button type="submit" class="text-error font-bold w-full text-left">Logout</button>
+                        </form>
+                    </li>
+                </ul>
+            </div>
+            {% else %}
+            <a href="{% url 'account_login' %}" class="btn btn-primary btn-sm px-6">Login</a>
+            {% endif %}
+        </div>
     </nav>
 </header>
